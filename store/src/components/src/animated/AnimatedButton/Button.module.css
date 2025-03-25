@@ -1,71 +1,67 @@
 .animatedButton {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-.primary {
-  background-color: var(--color-dark);
-  color: var(--color-light-3);
-}
-.secondary {
-  background-color: var(--color-light);
-  color: var(--color-dark-2);
-}
-.outline {
-  background-color: transparent;
-  border: 0.15rem solid var(--color-dark);
-  color: var(--color-dark-2);
-}
-.primary:hover {
-  background-color: var(--color-dark-2);
-}
-
-.secondary:hover {
-  background-color: var(--color-light-3);
-}
-.outline:hover {
-  background-color: var(--color-dark);
-  color: var(--color-light);
-}
-.outline.fill:hover {
-  background-color: transparent;
-}
-.fill {
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.fill span {
-  z-index: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
-.fill::before {
-  content: "";
+/* Background layer for fill animation */
+.fillLayer {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  transform: translate(-100%, 20%);
-  border-radius: 50%;
-  transition: all 0.3s ease-out;
 }
 
-.fill:hover::before {
-  transform: translate(0, 0);
-  border-radius: 0;
+/* Color variants */
+.primary {
+  background-color: var(--color-dark);
+  color: var(--color-light-3);
 }
-.primary.fill::before {
+.primary:hover {
   background-color: var(--color-dark-3);
 }
-.secondary.fill::before {
+.secondary {
+  background-color: var(--color-light);
+  color: var(--color-dark-2);
+}
+.secondary:hover {
   background-color: var(--color-light-3);
 }
-.outline.fill::before {
+
+.outline {
+  background-color: transparent;
+  border: 0.15rem solid var(--color-dark);
+  color: var(--color-dark-2);
+}
+
+/* Hover effects */
+.primary .fillLayer {
   background-color: var(--color-dark-3);
+}
+.secondary .fillLayer {
+  background-color: var(--color-light-3);
+}
+.outline .fillLayer {
+  background-color: var(--color-dark-3);
+}
+
+.outline:hover {
+  color: var(--color-light);
+}
+.outline:not(.fill):hover {
+  background-color: var(--color-dark-3);
+  color: var(--color-light);
+}
+.fill span {
+  position: relative;
+  z-index: 1;
 }
