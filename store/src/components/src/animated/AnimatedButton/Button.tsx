@@ -5,15 +5,15 @@ import styles from "./Button.module.css";
 interface AnimatedButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  variant?: "bounce" | "pulse" | "slide";
-  className?: string;
+  animationVariant?: "trill" | "fill" | "slide";
+  colorVariant?: "primary" | "secondary" | "outline";
 }
 
 const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   children,
   onClick,
-  variant = "bounce",
-  className = "",
+  animationVariant = "trill",
+  colorVariant = "primary",
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -22,43 +22,41 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
 
     if (!button) return;
 
-    switch (variant) {
-      case "bounce":
-        gsap.to(button, {
-          scale: 1.1,
-          yoyo: true,
-          repeat: 1,
-          duration: 0.1,
-          ease: "power1.inOut",
-        });
-        break;
-      case "pulse":
-        gsap.to(button, {
-          scale: 1.05,
-          repeat: 1,
-          yoyo: true,
-          duration: 0.2,
-          ease: "power1.inOut",
-        });
-        break;
-      case "slide":
-        gsap.from(button, {
-          x: -50,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-        break;
-    }
-  }, [variant]);
+    button.addEventListener("mouseenter", () => {
+      switch (animationVariant) {
+        case "trill":
+          gsap.to(button, {
+            keyframes: [
+              { rotation: 5, x: 5, duration: 0.1 },
+              { rotation: -5, x: -5, duration: 0.1 },
+              { rotation: 5, x: 5, duration: 0.1 },
+              { rotation: -5, x: -5, duration: 0.1 },
+              { rotation: 0, x: 0, duration: 0.1 },
+            ],
+            ease: "sine.inOut",
+          });
+          break;
+        case "slide":
+          gsap.to(button, { x: 10, duration: 0.2, ease: "back.inOut" });
+          break;
+      }
+    });
+    button.addEventListener("mouseleave", () => {
+      switch (animationVariant) {
+        case "slide":
+          gsap.to(button, { x: 0, duration: 0.3 });
+          break;
+      }
+    });
+  }, [animationVariant]);
 
   return (
     <button
       ref={buttonRef}
-      className={`${styles.animatedButton} ${styles[variant]} ${className}`}
+      className={`${styles.animatedButton} ${styles[animationVariant]} ${styles[colorVariant]}`}
       onClick={onClick}
     >
-      {children}
+      <span>{children}</span>
     </button>
   );
 };

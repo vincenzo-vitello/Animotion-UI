@@ -1,38 +1,71 @@
 .animatedButton {
-  padding: 10px 20px;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  background-color: var(--primary-color);
-  color: white;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+.primary {
+  background-color: var(--color-dark);
+  color: var(--color-light-3);
+}
+.secondary {
+  background-color: var(--color-light);
+  color: var(--color-dark-2);
+}
+.outline {
+  background-color: transparent;
+  border: 0.15rem solid var(--color-dark);
+  color: var(--color-dark-2);
+}
+.primary:hover {
+  background-color: var(--color-dark-2);
 }
 
-.bounce:hover {
-  animation: bounce 0.5s;
+.secondary:hover {
+  background-color: var(--color-light-3);
+}
+.outline:hover {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
+.outline.fill:hover {
+  background-color: transparent;
+}
+.fill {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fill span {
+  z-index: 1;
 }
 
-.pulse:hover {
-  animation: pulse 0.5s;
+.fill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate(-100%, 20%);
+  border-radius: 50%;
+  transition: all 0.3s ease-out;
 }
 
-@keyframes bounce {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+.fill:hover::before {
+  transform: translate(0, 0);
+  border-radius: 0;
 }
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
+.primary.fill::before {
+  background-color: var(--color-dark-3);
+}
+.secondary.fill::before {
+  background-color: var(--color-light-3);
+}
+.outline.fill::before {
+  background-color: var(--color-dark-3);
 }
