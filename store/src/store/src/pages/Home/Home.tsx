@@ -46,7 +46,6 @@ const Home: React.FC = () => {
           ]}
         />
         <p>Animated Accordion</p>
-
         <AnimatedAccordion
           content={[
             {
