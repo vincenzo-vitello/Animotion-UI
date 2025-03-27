@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import styles from "./Button.module.css";
+import globalStyles from "./global.css";
 interface AnimatedButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   variant: "full" | "outline";
   animationVariant: "shadow" | "repulsion";
+  customClass?: string;
 }
 
 const AnimatedButton: React.FC<AnimatedButtonProps> = ({
@@ -13,6 +15,7 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   onClick,
   variant,
   animationVariant,
+  customClass = "",
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -29,8 +32,13 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
           { rotate: -25, duration: 0.1, ease: "power1.inOut" },
           { rotate: 25, duration: 0.1, ease: "power1.inOut" },
           { rotate: -25, duration: 0.1, ease: "power1.inOut" },
-          { rotate: 0, duration: 0.01, ease: "power1.inOut" },
-          { x: 5, y: -5, duration: 0.1, ease: "power1.inOut" },
+          {
+            rotate: 0,
+            x: 5,
+            y: -5,
+            duration: 0.1,
+            ease: "power1.inOut",
+          },
         ],
         paused: true,
         onStart: () => {
@@ -99,10 +107,12 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   }, [animationVariant]);
   return (
     <div className={styles.animatedButtonWrapper}>
-      <div className={`${styles.buttonBackground} ${styles[variant]}`}></div>
+      <div
+        className={`${styles.buttonBackground} ${styles[variant]} ${customClass}`}
+      ></div>
       <button
         ref={buttonRef}
-        className={`${styles.animatedButton} ${styles[variant]}`}
+        className={`${styles.animatedButton} ${styles[variant]} ${customClass}`}
         onClick={onClick}
       >
         {children}
