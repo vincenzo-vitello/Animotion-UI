@@ -25,12 +25,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  background: linear-gradient(
-    90deg,
-    var(--color-light) 0%,
-    var(--color-light-2) 49%,
-    var(--color-light) 100%
-  );
+  background-color: var(--color-light-5);
   color: var(--color-dark-2);
   line-height: 1.6;
 }
