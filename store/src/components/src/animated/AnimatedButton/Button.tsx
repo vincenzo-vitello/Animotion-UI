@@ -30,7 +30,7 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
           { rotate: 25, duration: 0.1, ease: "power1.inOut" },
           { rotate: -25, duration: 0.1, ease: "power1.inOut" },
           { rotate: 0, duration: 0.01, ease: "power1.inOut" },
-          { x: 5, y: -5, duration: 0.1, ease: "power3.inOut" },
+          { x: 5, y: -5, duration: 0.1, ease: "power1.inOut" },
         ],
         paused: true,
         onStart: () => {
