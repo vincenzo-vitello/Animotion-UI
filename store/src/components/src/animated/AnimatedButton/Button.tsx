@@ -1,121 +1,113 @@
-import React, { useRef, useEffect } from "react";
-import { gsap } from "gsap";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 import styles from "./Button.module.css";
-
 interface AnimatedButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
-  animationVariant?: "trill" | "fill" | "slide";
-  colorVariant?: "primary" | "secondary" | "outline";
+  variant: "full" | "outline";
+  animationVariant: "shadow" | "repulsion";
 }
 
 const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   children,
   onClick,
-  animationVariant = "trill",
-  colorVariant = "primary",
+  variant,
+  animationVariant,
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const fillLayerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const button = buttonRef.current;
-    const fillLayer = fillLayerRef.current;
+    if (!button) return;
 
-    if (!button || !fillLayer) return;
+    const addShadow = () => {
+      const animation = gsap.to(button, {
+        keyframes: [
+          { rotate: 25, duration: 0.1, ease: "power1.inOut" },
+          { rotate: -25, duration: 0.1, ease: "power1.inOut" },
+          { rotate: 25, duration: 0.1, ease: "power1.inOut" },
+          { rotate: -25, duration: 0.1, ease: "power1.inOut" },
+          { rotate: 25, duration: 0.1, ease: "power1.inOut" },
+          { rotate: -25, duration: 0.1, ease: "power1.inOut" },
+          { rotate: 0, duration: 0.01, ease: "power1.inOut" },
+          { x: 5, y: -5, duration: 0.1, ease: "power3.inOut" },
+        ],
+        paused: true,
+        onStart: () => {
+          button.addEventListener("mouseleave", handleMouseLeave);
+        },
+        onComplete: () => {
+          button.removeEventListener("mouseleave", handleMouseLeave);
+        },
+      });
 
-    // Set initial position of fillLayer
-    gsap.set(fillLayer, { x: "-100%", y: "100%", borderRadius: "50%" });
+      animation.play();
 
-    const onMouseEnter = () => {
-      switch (animationVariant) {
-        case "trill":
-          gsap.to(button, {
-            keyframes: [
-              { rotation: 5, x: 5, duration: 0.1 },
-              { rotation: -5, x: -5, duration: 0.1 },
-              { rotation: 5, x: 5, duration: 0.1 },
-              { rotation: -5, x: -5, duration: 0.1 },
-              { rotation: 0, x: 0, duration: 0.1 },
-            ],
-            scaleX: 1.1,
-            scaleY: 0.9,
-            duration: 0.5,
-            ease: "sine.inOut",
-          });
-          break;
-
-        case "fill":
-          gsap.to(button, {
-            scaleX: 1.1,
-            scaleY: 0.9,
-            duration: 0.5,
-          });
-          gsap.to(fillLayer, {
-            x: "0%",
-            y: "0%",
-            borderRadius: "0%",
-            duration: 0.5,
-            ease: "power2.out",
-          });
-
-          break;
-
-        case "slide":
-          gsap.to(button, { x: 10, duration: 0.2, ease: "back.inOut" });
-          break;
-      }
+      const handleMouseLeave = () => {
+        animation.pause();
+        gsap.to(button, {
+          x: 0,
+          y: 0,
+          rotate: 0,
+          duration: 0.1,
+          ease: "power3.inOut",
+        });
+      };
+    };
+    const removeShadow = () => {
+      gsap.to(button, {
+        x: 0,
+        y: 0,
+        rotate: 0,
+        duration: 0.1,
+        ease: "power3.inOut",
+      });
     };
 
-    const onMouseLeave = () => {
-      switch (animationVariant) {
-        case "trill":
-          gsap.to(button, {
-            scaleX: 1,
-            scaleY: 1,
-            duration: 0.5,
-            ease: "elastic.inOut",
-          });
-          break;
-        case "fill":
-          gsap.to(button, {
-            scaleX: 1,
-            scaleY: 1,
-            duration: 0.5,
-          });
-          gsap.to(fillLayer, {
-            x: "-100%",
-            y: "20%",
-            borderRadius: "50%",
-            duration: 0.3,
-            ease: "power2.out",
-          });
-          break;
+    const addRepulsion = (event: MouseEvent) => {
+      const { left, top, width, height } = button.getBoundingClientRect();
+      const mouseX = event.clientX - (left + width / 2);
+      const mouseY = event.clientY - (top + height / 2);
 
-        case "slide":
-          gsap.to(button, { x: 0, duration: 0.3 });
-          break;
-      }
+      gsap.to(button, {
+        x: mouseX * 0.3,
+        y: mouseY * 0.6,
+        rotate: mouseX * 0.3,
+        duration: 0.05,
+        ease: "power3.inOut",
+      });
     };
 
-    button.addEventListener("mouseenter", onMouseEnter);
-    button.addEventListener("mouseleave", onMouseLeave);
+    const removeRepulsion = () => {
+      gsap.to(button, { x: 0, y: 0, duration: 0.1, rotate: 0 });
+    };
+
+    if (animationVariant === "shadow") {
+      button.addEventListener("mouseenter", addShadow);
+      button.addEventListener("mouseleave", removeShadow);
+    } else if (animationVariant === "repulsion") {
+      button.addEventListener("mousemove", addRepulsion);
+      button.addEventListener("mouseleave", removeRepulsion);
+    }
 
     return () => {
-      button.removeEventListener("mouseenter", onMouseEnter);
-      button.removeEventListener("mouseleave", onMouseLeave);
+      button.removeEventListener("mouseenter", addShadow);
+      button.removeEventListener("mouseleave", removeShadow);
+      button.removeEventListener("mousemove", addRepulsion);
+      button.removeEventListener("mouseleave", removeRepulsion);
     };
   }, [animationVariant]);
-
   return (
-    <button
-      ref={buttonRef}
-      className={`${styles.animatedButton} ${styles[animationVariant]} ${styles[colorVariant]}`}
-      onClick={onClick}
-    >
-      <div ref={fillLayerRef} className={styles.fillLayer}></div>
-      <span>{children}</span>
-    </button>
+    <div className={styles.animatedButtonWrapper}>
+      <div className={`${styles.buttonBackground} ${styles[variant]}`}></div>
+      <button
+        ref={buttonRef}
+        className={`${styles.animatedButton} ${styles[variant]}`}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    </div>
   );
 };
 

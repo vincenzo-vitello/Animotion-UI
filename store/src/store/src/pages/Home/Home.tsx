@@ -23,31 +23,16 @@ const Home: React.FC = () => {
         <Button variant="secondary">Base</Button>
         <Button variant="outline">Base</Button>
         <p style={{ gridColumn: "1 / span 3" }}>Animated Buttons: </p>
-        <AnimatedButton animationVariant="trill" colorVariant="primary">
+        <AnimatedButton variant="outline" animationVariant="shadow">
           Animated
         </AnimatedButton>
-        <AnimatedButton animationVariant="slide" colorVariant="primary">
+        <AnimatedButton variant="full" animationVariant="shadow">
           Animated
         </AnimatedButton>
-        <AnimatedButton animationVariant="fill" colorVariant="primary">
+        <AnimatedButton variant="outline" animationVariant="repulsion">
           Animated
         </AnimatedButton>
-        <AnimatedButton animationVariant="trill" colorVariant="secondary">
-          Animated
-        </AnimatedButton>
-        <AnimatedButton animationVariant="slide" colorVariant="secondary">
-          Animated
-        </AnimatedButton>
-        <AnimatedButton animationVariant="fill" colorVariant="secondary">
-          Animated
-        </AnimatedButton>
-        <AnimatedButton animationVariant="trill" colorVariant="outline">
-          Animated
-        </AnimatedButton>
-        <AnimatedButton animationVariant="slide" colorVariant="outline">
-          Animated
-        </AnimatedButton>
-        <AnimatedButton animationVariant="fill" colorVariant="outline">
+        <AnimatedButton variant="full" animationVariant="repulsion">
           Animated
         </AnimatedButton>
       </div>
