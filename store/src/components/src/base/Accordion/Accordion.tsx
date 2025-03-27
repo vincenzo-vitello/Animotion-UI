@@ -75,20 +75,24 @@ const Accordion: React.FC<AccordionProps> = ({ content }) => {
     <div className={styles.accordion}>
       {content.map((item, index) => (
         <div key={index} className={styles.accordionItem}>
-          <h3
-            onClick={() => handleToggle(index)}
-            className={`${styles.accordionTitle} ${
-              activeIndex === index ? styles.active : ""
-            }`}
-          >
-            {item.title}
-          </h3>
-          <div
-            className={`${styles.accordionDescription} ${
-              activeIndex === index ? styles.visible : styles.hidden
-            }`}
-          >
-            {item.description && renderDescription(item.description, index)}
+          <div className={styles.accordionTitleWrapper}>
+            <h3
+              onClick={() => handleToggle(index)}
+              className={`${styles.accordionTitle} ${
+                activeIndex === index ? styles.active : ""
+              }`}
+            >
+              {item.title}
+            </h3>
+          </div>
+          <div className={styles.accordionDescriptionWrapper}>
+            <div
+              className={`${styles.accordionDescription} ${
+                activeIndex === index ? styles.visible : styles.hidden
+              }`}
+            >
+              {item.description && renderDescription(item.description, index)}
+            </div>
           </div>
         </div>
       ))}

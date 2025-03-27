@@ -17,11 +17,18 @@
 
 .accordion {
   width: 100%;
+  border: 1px solid var(--color-dark-5);
+  border-radius: 0.25rem;
 }
 
 .accordionItem {
   width: 100%;
   color: var(--color-dark-2);
+}
+
+.accordionTitleWrapper {
+  position: relative;
+  width: 100%;
 }
 
 .accordionTitle {
@@ -32,22 +39,42 @@
   text-align: left;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--color-dark-5);
+  position: relative;
+  z-index: 1;
 }
 
 .accordionItem:last-of-type .accordionTitle {
   border-bottom: none;
 }
 
-.accordionTitle:hover {
-  background-color: var(--color-dark-5);
+.accordionTitleWrapper:hover .accordionTitle {
+  background-color: var(--color-dark-2);
   color: var(--color-light);
 }
 
 .accordionTitle.active {
-  background-color: var(--color-dark-5);
+  background-color: var(--color-dark-2);
   color: var(--color-light);
 }
 
+.accordionDescriptionWrapper {
+  width: 100%;
+}
+.accordionDescriptionWrapper h4 {
+  padding-left: 2rem;
+}
+
+.accordionDescriptionWrapper .accordionDescription p {
+  padding-left: 3rem;
+}
+.accordionDescription .accordionTitle:hover {
+  background-color: var(--color-dark-5);
+  color: var(--color-light);
+}
+.accordionDescription .accordionTitle.active {
+  background-color: var(--color-dark-5);
+  color: var(--color-light);
+}
 .accordionDescription {
   opacity: 0;
   transform: translateY(-20px);
@@ -63,7 +90,11 @@
   opacity: 1;
   transform: translateY(0);
   height: auto;
-  padding: 0.5rem 2rem;
-  margin: 0.5rem 0;
   transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease;
+}
+.accordionDescription.visible p {
+  padding: 0.5rem 2rem;
+}
+.accordionDescriptionWrapper .accordionDescription .accordionDescription p {
+  padding: 0.5rem 3rem;
 }

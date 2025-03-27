@@ -13,7 +13,6 @@ const Home: React.FC = () => {
         style={{
           width: "60%",
           margin: "0 auto",
-          border: "1px solid var(--color-dark)",
         }}
       >
         <Accordion
